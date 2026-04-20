@@ -6,9 +6,18 @@ import 'package:hungry/fetures/auth/views/shared/custom_text.dart';
 import 'package:hungry/fetures/auth/views/shared/primary_custom_button.dart';
 
 class CartItem extends StatelessWidget {
-   CartItem({super.key,required this.image, required this.name, required this.description,required this.number, this.onRemove, this.onAdd, this.onRemoveCart});
+  CartItem({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.description,
+    required this.number,
+    this.onRemove,
+    this.onAdd,
+    this.onRemoveCart,
+  });
   String image, name, description;
-  final int number ;
+  final int number;
   Function()? onRemove, onAdd, onRemoveCart;
 
   @override
@@ -23,12 +32,9 @@ class CartItem extends StatelessWidget {
             Column(
               children: [
                 Image.asset(image, height: 110),
-              
-                CustomText(
-                  text: name,
-                  size: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+
+                Image.asset("assets/products/shadow.png"),
+                CustomText(text: name, size: 18, fontWeight: FontWeight.bold),
                 CustomText(text: description),
 
                 Gap(10),

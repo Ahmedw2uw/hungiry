@@ -152,7 +152,7 @@ class _ChickoutViewState extends State<ChickoutView> {
                   ),
                 ],
               ),
-              Gap(50),
+              Gap(80),
             ],
           ),
         ),
@@ -234,7 +234,7 @@ class _ChickoutViewState extends State<ChickoutView> {
                               PrimaryCustomButton(
                                 text: "Go Back",
                                 onTap: () {
-                                  Navigator.pop(context); // يقفل الديالوج
+                                  Navigator.pop(context);
                                 },
                               ),
                             ],

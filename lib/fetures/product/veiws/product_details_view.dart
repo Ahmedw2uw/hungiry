@@ -57,7 +57,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 child: Row(
                   children: List.generate(6, (index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(right: 10),
                       child: TopingCard(
                         title: "Tomatos",
                         image: "assets/products/tomato.png",
@@ -79,7 +79,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 child: Row(
                   children: List.generate(6, (index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(right: 10),
                       child: TopingCard(
                         title: "Tomatos",
                         image: "assets/products/tomato.png",
@@ -89,33 +89,54 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   }),
                 ),
               ),
-              Gap(20),
-              Row(
+
+              Gap(200),
+            ],
+          ),
+        ),
+      ),
+
+      bottomSheet: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.smalltextcolor,
+              blurRadius: 15,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        height: 120,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      CustomText(
-                        text: "Total ",
-                        size: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      Gap(10),
-                      CustomText(text: "\$ 12.99", size: 30),
-                    ],
+                  CustomText(
+                    text: "Total ",
+                    size: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Spacer(),
-                  PrimaryCustomButton(
-                    text: "Chickout",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ChickoutView()),
-                      );
-                    },
-                  ),
+                  Gap(10),
+                  CustomText(text: "\$ 12.99", size: 30),
                 ],
               ),
-              Gap(50),
+              Spacer(),
+              PrimaryCustomButton(
+                text: "Chickout",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ChickoutView()),
+                  );
+                },
+              ),
             ],
           ),
         ),

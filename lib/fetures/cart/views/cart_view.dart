@@ -70,8 +70,21 @@ class _CartViewState extends State<CartView> {
       bottomSheet: Container(
         height: 90,
         width: double.infinity,
-        color: AppColors.bigtextColor,
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppColors.bigtextColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.smalltextcolor,
+              blurRadius: 15,
+              offset: const Offset(0, 0),
+            ),
+          ],
+        ),
         child: Row(
           children: [
             Column(

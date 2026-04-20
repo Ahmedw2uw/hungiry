@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hungry/fetures/auth/views/login_veiw.dart';
+import 'package:hungry/fetures/auth/views/profile_veiw.dart';
 import 'package:hungry/fetures/auth/views/signup_view.dart';
 import 'package:hungry/root.dart';
 import 'package:hungry/splash.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Hungry?",
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: Root(),
+      home: Splash(),
     );
   }
 }

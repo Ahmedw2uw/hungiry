@@ -17,19 +17,19 @@ class TopingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150,
+      width: 145,
       child: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
-              color: const Color(0xFF4A3A37),
+              color: AppColors.primaryColor,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 110,
+                  height: 100,
                   decoration: const BoxDecoration(
                     color: AppColors.bigtextColor,
                     borderRadius: BorderRadius.all(Radius.circular(24)),

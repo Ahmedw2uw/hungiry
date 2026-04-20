@@ -10,35 +10,32 @@ class UserHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/logo/Hungry_.svg",
-                              color: AppColors.primaryColor,
-                              height: 35,
-                            ),
-                            Gap(5),
-                            CustomText(
-                              text:
-                                  "hello, moody", //! hear will but the user name
-                              color: AppColors.smalltextcolor,
-                              size: 18,
-                            ),
-                            // Spacer(),
-                          ],
-                        ),
-                        const Spacer(),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: AppColors.primaryColor,
-                          child: const Icon(
-                            Icons.person,
-                            color: AppColors.bigtextColor,
-                          ),
-                        ),
-                      ],
-                    );
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              "assets/logo/Hungry_.svg",
+              color: AppColors.primaryColor,
+              height: 35,
+            ),
+            Gap(5),
+            CustomText(
+              text: "hello, moody", //! hear will but the user name
+              color: AppColors.smalltextcolor,
+              size: 18,
+            ),
+            // Spacer(),
+          ],
+        ),
+        const Spacer(),
+        CircleAvatar(
+          radius: 30,
+          backgroundColor: AppColors.primaryColor,
+
+          backgroundImage: AssetImage("assets/profile/profile_img.jpg"),
+        ),
+      ],
+    );
   }
 }

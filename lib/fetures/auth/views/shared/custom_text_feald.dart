@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hungry/core/constant/app_colors.dart';
 
 class CustomTextFeald extends StatefulWidget {
   CustomTextFeald({
@@ -34,6 +35,7 @@ class _CustomTextFealdState extends State<CustomTextFeald> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
+      style: TextStyle(color: AppColors.bigtextColor),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter ${widget.hint}';
@@ -54,8 +56,24 @@ class _CustomTextFealdState extends State<CustomTextFeald> {
               )
             : null,
         filled: true,
-        fillColor: Colors.white,
+
+        fillColor: Colors.transparent,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: AppColors.bigtextColor),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: AppColors.bigtextColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.red),
+        ),
         hintText: widget.hint,
+        hintStyle: TextStyle(color: AppColors.bigtextColor),
+        iconColor: AppColors.bigtextColor,
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
