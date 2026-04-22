@@ -6,6 +6,7 @@ import 'package:hungry/core/constant/app_colors.dart';
 import 'package:hungry/core/network/api_error.dart';
 import 'package:hungry/fetures/auth/data/auth_repo.dart';
 import 'package:hungry/fetures/auth/views/shared/custom_button.dart';
+import 'package:hungry/fetures/auth/views/shared/custom_snack_bar.dart';
 import 'package:hungry/fetures/auth/views/shared/custom_text.dart';
 import 'package:hungry/fetures/auth/views/shared/custom_text_feald.dart';
 import 'package:hungry/fetures/auth/views/signup_view.dart';
@@ -27,36 +28,41 @@ class _LoginVeiwState extends State<LoginVeiw> {
 
   //! login function
   Future<void> login() async {
-    setState(() => isLoading = true);
+  FocusScope.of(context).unfocus();
+  setState(() => isLoading = true);
 
-    try {
-      final user = await authRepo.login(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-      );
+  try {
+    final user = await authRepo.login(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
 
-      if (user.token != null) {
-        if (!mounted) return;
+      if (!mounted) return;
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Root()),
-        );
-        setState(() => isLoading = false);
-      }
-    } catch (e) {
-      setState(() => isLoading = false);
-      String errorMessage = e.toString();
+    setState(() => isLoading = false);
 
-      if (e is ApiError) {
-        errorMessage = e.message;
-      }
+    // الانتقال فوراً لصفحة الـ Root
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const Root()),
+    );
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+  } catch (e) {
+    if (!mounted) return;
+    setState(() => isLoading = false);
+
+    String finalMessage = "حدث خطأ ما"; 
+
+    if (e is ApiError) {
+      finalMessage = e.message; 
+    } else {
+      finalMessage = "تأكد من اتصالك بالإنترنت أو صحة البيانات";
     }
+
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(customSnackBar(finalMessage));
   }
+}
 
   @override
   void dispose() {
@@ -73,6 +79,8 @@ class _LoginVeiwState extends State<LoginVeiw> {
       },
 
       child: Scaffold(
+        // الحل لمشكلة SnackBar: منع العناصر من التمدد خلف الكيبورد بشكل يسبب تداخل
+        resizeToAvoidBottomInset: true,
         body: Center(
           child: Form(
             key: formKey,
@@ -136,7 +144,10 @@ class _LoginVeiwState extends State<LoginVeiw> {
                               : CustomButton(
                                   text: "Login",
                                   onTap: () {
+                                    print("LOGIN PRESSED");
+
                                     if (formKey.currentState!.validate()) {
+                                      print("VALID FORM");
                                       login();
                                     }
                                   },

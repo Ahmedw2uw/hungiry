@@ -11,19 +11,22 @@ class ApiServices {
       final response = await _dioClint.dio.get(endPoint);
       return response.data;
     } on DioException catch (error) {
-      return ApiException.handleError(error);
+      // قم بتغيير return إلى throw
+      throw ApiException.handleError(error);
     }
   }
 
-  //*post
-  Future<dynamic> post(String endPoint, Map<String, dynamic> body) async {
-    try {
-      final response = await _dioClint.dio.post(endPoint, data: body);
-      return response.data;
-    } on DioException catch (error) {
-      return ApiException.handleError(error);
-    }
+  //* post
+  // في ملف ApiServices.dart
+Future<dynamic> post(String endPoint, dynamic body) async { // تم تغيير النوع هنا إلى dynamic
+  try {
+    final response = await _dioClint.dio.post(endPoint, data: body);
+    return response.data;
+  } on DioException catch (error) {
+    throw ApiException.handleError(error);
   }
+}
+
 
   //*put
   Future<dynamic> put(String endPoint, Map<String, dynamic> body) async {
@@ -31,7 +34,7 @@ class ApiServices {
       final response = await _dioClint.dio.put(endPoint, data: body);
       return response.data;
     } on DioException catch (error) {
-      return ApiException.handleError(error);
+      throw ApiException.handleError(error); // تغيير من return إلى throw
     }
   }
 
@@ -41,7 +44,7 @@ class ApiServices {
       final response = await _dioClint.dio.delete(endPoint, data: body);
       return response.data;
     } on DioException catch (error) {
-      return ApiException.handleError(error);
+      throw ApiException.handleError(error); // تغيير من return إلى throw
     }
   }
 }

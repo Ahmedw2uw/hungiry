@@ -4,7 +4,7 @@ import 'package:hungry/core/utils/pref_helpers.dart';
 class DioClint {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "https://sonic-zdi0.onrender.com/api",
+      baseUrl: "https://dsyyjcatoamspetltjce.functions.supabase.co/sonic",
       headers: {'Content-Type': 'application/json'},
     ),
   );

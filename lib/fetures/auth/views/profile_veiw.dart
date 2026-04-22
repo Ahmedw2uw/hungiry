@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hungry/core/constant/app_colors.dart';
+import 'package:hungry/core/network/api_error.dart';
+import 'package:hungry/fetures/auth/data/auth_repo.dart';
+import 'package:hungry/fetures/auth/data/user_model.dart';
 import 'package:hungry/fetures/auth/views/login_veiw.dart';
 import 'package:hungry/fetures/auth/views/shared/custom_text.dart';
 import 'package:hungry/fetures/auth/views/shared/primary_custom_button.dart';
@@ -14,16 +17,31 @@ class ProfileVeiw extends StatefulWidget {
 }
 
 class _ProfileVeiwState extends State<ProfileVeiw> {
+  final AuthRepo authRepo = AuthRepo(); // إضافة الريبو
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController address = TextEditingController();
 
+  bool isLoading = false; // لإدارة حالة التحميل
+
   @override
   void initState() {
-    name.text = "John Doe";
-    email.text = "john.doe@example.com";
-    address.text = "123 Main Street, City, Country";
     super.initState();
+    _fetchUserData(); // جلب البيانات الحقيقية عند الدخول
+  }
+
+  // دالة جلب البيانات من السيرفر
+  Future<void> _fetchUserData() async {
+    try {
+      UserModel user = await authRepo.getUserData();
+      setState(() {
+        name.text = user.name;
+        email.text = user.email;
+        address.text = user.address ?? "";
+      });
+    } catch (e) {
+      print("Error fetching profile: $e");
+    }
   }
 
   @override
@@ -36,10 +54,9 @@ class _ProfileVeiwState extends State<ProfileVeiw> {
         leading: Icon(Icons.arrow_back, color: AppColors.bigtextColor),
         actions: [
           Icon(Icons.settings, color: AppColors.bigtextColor),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
         ],
       ),
-
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -54,35 +71,37 @@ class _ProfileVeiwState extends State<ProfileVeiw> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: AppColors.bigtextColor, width: 2),
-                    image: DecorationImage(
-                      image: const AssetImage("assets/profile/profile_img.jpg"),
+                    image: const DecorationImage(
+                      image: AssetImage("assets/profile/profile_img.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
-              Gap(35),
-
+              const Gap(35),
               CustomUserTextFeald(lable: "Name", contrller: name),
-              Gap(25),
+              const Gap(25),
               CustomUserTextFeald(lable: "Email", contrller: email),
-              Gap(25),
+              const Gap(25),
               CustomUserTextFeald(lable: "Address", contrller: address),
-              Gap(25),
-              CustomUserTextFeald(lable: "Password", contrller: address),
-              Gap(20),
+              const Gap(25),
+              CustomUserTextFeald(
+                lable: "Password",
+                contrller: TextEditingController(text: "********"),
+              ), // حقل كلمة المرور
+              const Gap(20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Divider(color: AppColors.bigtextColor, thickness: 1),
               ),
-              Gap(20),
+              const Gap(20),
               ListTile(
-                contentPadding: EdgeInsets.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   vertical: 3,
                   horizontal: 16,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(20),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 tileColor: Colors.grey.shade300,
                 leading: Image.asset(
@@ -91,14 +110,13 @@ class _ProfileVeiwState extends State<ProfileVeiw> {
                   color: Colors.blueAccent,
                 ),
                 title: CustomText(
-                  text: "Debit card ",
-
+                  text: "Debit card",
                   color: AppColors.medumetextcolor,
                   fontWeight: FontWeight.bold,
                   size: 15,
                 ),
                 subtitle: CustomText(
-                  text: "**** *****12 ",
+                  text: "**** *****12",
                   color: AppColors.medumetextcolor,
                 ),
                 trailing: CustomText(
@@ -108,12 +126,11 @@ class _ProfileVeiwState extends State<ProfileVeiw> {
                 ),
                 onTap: () {},
               ),
-              Gap(100),
+              const Gap(100),
             ],
           ),
         ),
       ),
-
       bottomSheet: Container(
         height: 80,
         width: double.infinity,
@@ -135,22 +152,39 @@ class _ProfileVeiwState extends State<ProfileVeiw> {
         child: Row(
           children: [
             PrimaryCustomButton(
-              text: "Edit Profile",
-              onTap: () {
-                print("Edit Profile");
+              text: isLoading
+                  ? "Saving..."
+                  : "Edit Profile", // تغيير النص أثناء التحميل
+              onTap: () async {
+                setState(() => isLoading = true);
+                try {
+                  await authRepo.updateUser(name.text, email.text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Profile Updated!")),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Update Failed")),
+                  );
+                } finally {
+                  setState(() => isLoading = false);
+                }
               },
               icon: Icons.edit,
               width: 170,
               color: AppColors.primaryColor,
             ),
-            Spacer(),
+            const Spacer(),
             PrimaryCustomButton(
               text: "Log Out",
               color: AppColors.primaryColor,
-              onTap: () {
+              onTap: () async {
+                await authRepo
+                    .logout(); // تنفيذ تسجيل الخروج من السيرفر ومسح التوكن
+                if (!mounted) return;
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginVeiw()),
+                  MaterialPageRoute(builder: (context) => const LoginVeiw()),
                 );
               },
               icon: Icons.logout,

@@ -17,16 +17,15 @@ class UserModel {
     this.visa,
   });
 
-  factory UserModel.fromjson(Map<String,dynamic> json){
+  factory UserModel.fromjson(Map<String, dynamic> json) {
     return UserModel(
-      name: json['name']??"",
-      email: json['email']??"",
-      token: json['token']??"",
-      image: json['image']??"",
-      address: json['address']??"",
-      phoneNumber: json['phoneNumber']??"",
-      visa: json['Visa']??"",
+      name: json['name'] ?? "",
+      email: json['email'] ?? "",
+      token: json['token'] ?? null,
+      image: json['image'] ?? "",
+      address: json['address'] ?? "",
+      phoneNumber: json['phoneNumber'] ?? "",
+      visa: json['Visa'] ?? "",
     );
   }
-
 }
